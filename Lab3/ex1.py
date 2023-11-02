@@ -19,19 +19,20 @@ def check_ortogonal_matrix(F):
 def check_complex_matrix(F):
     return True in np.iscomplex(F)
 
-N = 8 
-F = fourier_matrix(N)
+if __name__ == "__main__":
+    N = 8 
+    F = fourier_matrix(N)
 
-print("Complex" if check_complex_matrix(F) else "Not complex")
-print("Ortogonal" if check_ortogonal_matrix(F) else "Not ortogonal")
+    print("Complex" if check_complex_matrix(F) else "Not complex")
+    print("Ortogonal" if check_ortogonal_matrix(F) else "Not ortogonal")
 
-fig, axs = plt.subplots(nrows=N, ncols=2, figsize=(10, 10))
+    fig, axs = plt.subplots(nrows=N, ncols=2, figsize=(10, 10))
 
-for i in range(N):
-    real_part = np.real(F[i])
-    imag_part = np.imag(F[i])
-    axs[i][0].plot(range(N), real_part)
-    axs[i][1].plot(range(N), imag_part)
+    for i in range(N):
+        real_part = np.real(F[i])
+        imag_part = np.imag(F[i])
+        axs[i][0].plot(range(N), real_part)
+        axs[i][1].plot(range(N), imag_part)
 
-fig.savefig('ex1.pdf')
-fig.show()
+    fig.savefig('ex1.pdf')
+    fig.show()
