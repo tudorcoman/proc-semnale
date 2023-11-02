@@ -9,7 +9,7 @@ def get_gamma(snr, x, z):
     nrx = np.sum(np.square(x))
     nrz = np.sum(np.square(z))
 
-    gamma_patrat = snr * nrx / nrz 
+    gamma_patrat = nrx / (snr * nrz) 
     return np.sqrt(gamma_patrat)
 
 def semnal_cu_zgomot(x, semnal, gamma, zgomot):
@@ -45,9 +45,9 @@ axs[0].plot(x, semnal_3(x), color="green", label="pi")
 axs[0].plot(x, semnal_4(x), color="orange", label="3pi/2")
 axs[0].legend()
 
-axs[1].plot(x, sz4(x), color="orange", label="3pi/2")
-axs[1].plot(x, sz3(x), color="green", label="pi")
-axs[1].plot(x, sz2(x), color="red", label="pi/2")
-axs[1].plot(x, sz1(x), color="blue", label="0")
+axs[1].plot(x, sz4(x), color="orange", label="100")
+axs[1].plot(x, sz3(x), color="green", label="10")
+axs[1].plot(x, sz2(x), color="red", label="1")
+axs[1].plot(x, sz1(x), color="blue", label="0.1")
 axs[1].legend()
 plt.show()
