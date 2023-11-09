@@ -32,3 +32,14 @@ A doua frecventa este aproximativ egala cu frecventa pentru $\frac{2}{3}$ dintr-
 
 A patra frecventa este aproximativ egala cu frecventa zilnica, care probabil corespunde cu un eveniment de tip "rush hour".
 
+## (h) Nu se cunoaste data la care a inceput masurarea acestui semnal. Concepeti o metoda (descrieti in cuvinte) prin care sa determinati, doar analizand semnalul in timp, aceasta data. Comentati ce neajunsuri ar putea avea solutia propusa si care sunt factorii de care depinde acuratetea ei.
+
+Folosind rezultatele de la punctul f, am putea face un FFT pentru a determina magnitudinea frecventelor precum cea anuala. Pe baza componentei continue, am putea construi un semnal care sa aiba doar aceasta frecventa, si sa facem un fel de "overlap" intre semnalul compus si semnalul simplu. 
+
+Daca avem mai multe date despre natura traficului din intersectia respectiva, putem sa estimam cand au loc acele "spike-uri" anuale, si, cunoscand frecventa de esantionare, sa mergem in spate pentru a determina data la care a inceput semnalul. 
+
+Neajunsul acestei metode este ca se bazeaza pe diverse "supozitii", precum cea ca spike-ul anual coincide cu un eveniment anume. 
+
+## (i) Filtrati semnalul, eliminati componentele de frecventa inalta (la alegerea voastra care/cate, dar alegerea sa se poata justifica).
+
+Am eliminat cele mai inalte 10% frecvente, considerand ca este o marja suficient de mica pentru a fi considerata "zgomot". Am incercat si sa elimin doar 5%, dar am ramas la 10% pentru a fi mai vizibil pe grafic.
