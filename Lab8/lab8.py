@@ -2,17 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def generate_trend(sp):
-    fct = lambda x: 5 * x * x + 3 * x + 2
+    fct = lambda x: 5 * x * x
     return fct(sp)
 
 def generate_szn(sp):
-    first_period_fct = lambda x: np.sin(2 * np.pi * x) + 9
-    second_period_fct = lambda x: np.sin(4 * np.pi * x) + 5
+    first_period_fct = lambda x: np.sin(2 * np.pi * 10 * x)
+    second_period_fct = lambda x: np.sin(2 * np.pi * 20 * x)
     return first_period_fct(sp) + second_period_fct(sp)
 
 def generate_noise(sp):
     # white gaussian noise 
-    return np.random.normal(0, 0.05, len(sp))
+    return np.random.normal(0, 1, len(sp))
 
 def generate_time_series(sp):
     first_component = generate_trend(sp)
@@ -20,6 +20,11 @@ def generate_time_series(sp):
     third_component = generate_noise(sp)
     return (first_component, second_component, third_component, 
             first_component + second_component + third_component)
+
+def x_star(timeseries, p, training_threshold):
+    y_vector = timeseries[training_threshold:p:-1]
+    y_matrix = np.array([timeseries[i:i-p:-1] for i in range(training_threshold-1, p-1, -1)])
+    return y_matrix, np.linalg.lstsq(y_matrix, y_vector, rcond=None)[0]
 
 if __name__ == "__main__":
     ### punctul a
@@ -68,11 +73,6 @@ if __name__ == "__main__":
 
     ## punctul c 
 
-    def x_star(timeseries, p, training_threshold):
-        y_vector = timeseries[training_threshold:p:-1]
-        y_matrix = np.array([timeseries[i:i-p:-1] for i in range(training_threshold-1, p-1, -1)])
-        return np.linalg.lstsq(y_matrix, y_vector, rcond=None)[0]
-
     def predict(x_star, timeseries, i, p):
         beta = np.reshape(x_star, (-1, 1))
         
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     training_threshold = 700 
     predictions = [] 
     p = 50
-    xs = x_star(timeseries, p, training_threshold)
+    _, xs = x_star(timeseries, p, training_threshold)
 
     for i in range(training_threshold + 1, len(timeseries)):
         predictions.append((i, predict(xs, timeseries, i, p)))
@@ -112,7 +112,7 @@ if __name__ == "__main__":
             print("Best p: ", best_p)
             print("Best training threshold: ", best_training_threshold)
             for p in range(2, training_threshold):
-                xs = x_star(timeseries, p, training_threshold)
+                _, xs = x_star(timeseries, p, training_threshold)
                 error = 0
                 prediction = predict(xs, timeseries, training_threshold + 1, p)
                 error = (prediction - timeseries[training_threshold + 1])
